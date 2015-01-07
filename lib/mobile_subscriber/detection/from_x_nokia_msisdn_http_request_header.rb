@@ -22,7 +22,7 @@ module MobileSubscriber
               http_request_headers: { 'X-Nokia-Msisdn' => msisdn }
             }
 
-            country_code = MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,2]]
+            country_code = MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,2]] || MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,3]]
 
             # Determinar la procedencia del MSISDN
             # TODO: Validar por IP, etc.

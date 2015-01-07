@@ -21,8 +21,7 @@ FactoryGirl.define do
 
     initialize_with do
       new build(:common_mobile_request_env).merge(
-        "REMOTE_ADDR"           =>  "201.144.162.4",
-        "REMOTE_HOST"           =>  "201.144.162.4"
+        "REMOTE_ADDR"           =>  "201.144.162.4"
       )
     end
 
@@ -30,7 +29,6 @@ FactoryGirl.define do
       initialize_with do
         new build(:common_mobile_request_env).merge(
           "REMOTE_ADDR"           =>  "201.144.162.4",
-          "REMOTE_HOST"           =>  "201.144.162.4",
           "HTTP_X_NOKIA_MSISDN"   =>  "528110000000"
         )
       end
@@ -40,8 +38,7 @@ FactoryGirl.define do
       initialize_with do
         new build(:common_mobile_request_env).merge(
           "REMOTE_ADDR"           =>  "170.51.255.240",
-          "REMOTE_HOST"           =>  "170.51.255.240",
-          "HTTP_X_NOKIA_MSISDN"   =>  "5491141098443"
+          "HTTP_X_NOKIA_MSISDN"   =>  "5491141090000"
         )
       end
     end
@@ -50,7 +47,6 @@ FactoryGirl.define do
       initialize_with do
         new build(:common_mobile_request_env).merge(
           "REMOTE_ADDR" =>  "201.23.176.202",
-          "REMOTE_HOST" =>  "201.23.176.202",
           "HTTP_MSISDN" =>  "5500000000000"
         )
       end
@@ -61,8 +57,7 @@ FactoryGirl.define do
       initialize_with do
         new build(:common_mobile_request_env).merge(
           "REMOTE_ADDR" =>  "191.116.39.114",
-          "REMOTE_HOST" =>  "191.116.39.114",
-          "HTTP_MSISDN" =>  "56024445202"
+          "HTTP_MSISDN" =>  "56024440000"
         )
       end
     end
@@ -71,18 +66,27 @@ FactoryGirl.define do
       initialize_with do
         new build(:common_mobile_request_env).merge(
           "REMOTE_ADDR" =>  "200.26.137.100",
-          "REMOTE_HOST" =>  "200.26.137.100",
           "HTTP_MSISDN" =>  "57000000000"
         )
       end
     end
 
+    # http://myip.ms/view/ip_owners/80612/Conecel.html
+    factory :mobile_request_from_claro_ecuador do
+      initialize_with do
+        new build(:common_mobile_request_env).merge(
+          "REMOTE_ADDR" =>  "190.63.1.10",
+          "HTTP_MSISDN" =>  "59342690000"
+        )
+      end
+    end
+
+    # http://myip.ms/view/ip_owners/90291/America_Movil_Peru_S_a_c.html
     factory :mobile_request_from_claro_peru do
       initialize_with do
         new build(:common_mobile_request_env).merge(
-          "REMOTE_ADDR"               => "190.113.192.9",
-          "REMOTE_HOST"               => "190.113.192.9",
-          "HTTP_X_UP_CALLING_LINE_ID" => "5100000000000",
+          "REMOTE_ADDR"               => "200.108.96.5",
+          "HTTP_X_UP_CALLING_LINE_ID" => "5116130000",
           "HTTP_VIA"                  => "aa Comverse aaa"
         )
       end
@@ -92,8 +96,17 @@ FactoryGirl.define do
       initialize_with do
         new build(:common_mobile_request_env).merge(
           "REMOTE_ADDR"           =>  "187.26.59.4",
-          "REMOTE_HOST"           =>  "187.26.59.4",
           "HTTP_X_UP_CH_MSISDN"   =>  "5500000000000"
+        )
+      end
+    end
+
+    # http://myip.ms/view/ip_owners/7424/Telefonica_Del_Peru_Saa.html
+    factory :mobile_request_from_movistar_peru do
+      initialize_with do
+        new build(:common_mobile_request_env).merge(
+          "REMOTE_ADDR"               => "190.42.165.87",
+          "HTTP_X_UP_CALLING_LINE_ID" => "5112100000"
         )
       end
     end
