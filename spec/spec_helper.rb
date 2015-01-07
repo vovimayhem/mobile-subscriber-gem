@@ -67,13 +67,11 @@ RSpec.configure do |config|
 
   config.raise_errors_for_deprecations!
 
-
-
   # Allow to use the FactoryGirl methods (build, create, build_stubbed)
   # directly on specs, instead of prefacing them with "FactoryGirl":
   config.include FactoryGirl::Syntax::Methods
 
-
   Dir["spec/factories/*.rb"].each { |f| load f }
+  Dir["spec/shared_examples/*.rb"].each { |f| load f }
 
 end

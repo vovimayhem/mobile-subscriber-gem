@@ -49,9 +49,30 @@ FactoryGirl.define do
     factory :mobile_request_from_claro_brasil do
       initialize_with do
         new build(:common_mobile_request_env).merge(
-          "REMOTE_ADDR"           =>  "187.26.59.4",
-          "REMOTE_HOST"           =>  "187.26.59.4",
-          "HTTP_X_UP_CH_MSISDN"   =>  "5500000000000"
+          "REMOTE_ADDR" =>  "201.23.176.202",
+          "REMOTE_HOST" =>  "201.23.176.202",
+          "HTTP_MSISDN" =>  "5500000000000"
+        )
+      end
+    end
+
+    # http://ns.myip.ms/view/ip_owners/181034/Claro_Chile_S_a.html
+    factory :mobile_request_from_claro_chile do
+      initialize_with do
+        new build(:common_mobile_request_env).merge(
+          "REMOTE_ADDR" =>  "191.116.39.114",
+          "REMOTE_HOST" =>  "191.116.39.114",
+          "HTTP_MSISDN" =>  "56024445202"
+        )
+      end
+    end
+
+    factory :mobile_request_from_claro_colombia do
+      initialize_with do
+        new build(:common_mobile_request_env).merge(
+          "REMOTE_ADDR" =>  "200.26.137.100",
+          "REMOTE_HOST" =>  "200.26.137.100",
+          "HTTP_MSISDN" =>  "57000000000"
         )
       end
     end
@@ -63,6 +84,16 @@ FactoryGirl.define do
           "REMOTE_HOST"               => "190.113.192.9",
           "HTTP_X_UP_CALLING_LINE_ID" => "5100000000000",
           "HTTP_VIA"                  => "aa Comverse aaa"
+        )
+      end
+    end
+
+    factory :mobile_request_from_vivo_brasil do
+      initialize_with do
+        new build(:common_mobile_request_env).merge(
+          "REMOTE_ADDR"           =>  "187.26.59.4",
+          "REMOTE_HOST"           =>  "187.26.59.4",
+          "HTTP_X_UP_CH_MSISDN"   =>  "5500000000000"
         )
       end
     end

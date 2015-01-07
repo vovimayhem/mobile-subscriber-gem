@@ -109,6 +109,24 @@ describe MobileSubscriber::ISDN do
       end
     end
 
+    shared_examples "of detection from a request made from a chilean mobile network" do
+      it "responds to #id with a string starting with '56'" do
+        expect(subject.id).to match /\A56/
+      end
+
+      it "responds to #mobile_country_code with '730'" do
+        expect(subject.mobile_country_code).to eq '730'
+      end
+
+      it "responds to #dialing_code with '56'" do
+        expect(subject.dialing_code).to eq '56'
+      end
+
+      it "responds to #iso_3166_country_code with 'CL'" do
+        expect(subject.iso_3166_country_code).to eq 'CL'
+      end
+    end
+
     shared_examples "of detection from a request made from a peruvian mobile network" do
       it "responds to #id with a string starting with '51'" do
         expect(subject.id).to match /\A51/
@@ -168,6 +186,22 @@ describe MobileSubscriber::ISDN do
 
     end
 
+    context "from a request made from Claro Perú" do
+
+      subject do
+        described_class.new_from_request(build :mobile_request_from_claro_peru)
+      end
+
+      include_examples "of detection from a valid request"
+      include_examples "of detection from a request made from a peruvian mobile network"
+      include_examples "of detection from a request made from a Claro network"
+
+      it "responds to #mobile_network_operator with 'América Móvil Perú'" do
+        expect(subject.mobile_network_operator).to eq 'América Móvil Perú'
+      end
+
+    end
+
     context "from a request made from Claro Brasil" do
 
       subject do
@@ -183,20 +217,19 @@ describe MobileSubscriber::ISDN do
       end
     end
 
-    context "from a request made from Claro Perú" do
+    context "from a request made from Claro Chile" do
 
       subject do
-        described_class.new_from_request(build :mobile_request_from_claro_peru)
+        described_class.new_from_request(build :mobile_request_from_claro_chile)
       end
 
       include_examples "of detection from a valid request"
-      include_examples "of detection from a request made from a peruvian mobile network"
+      include_examples "of detection from a request made from a chilean mobile network"
       include_examples "of detection from a request made from a Claro network"
 
-      it "responds to #mobile_network_operator with 'América Móvil Perú'" do
-        expect(subject.mobile_network_operator).to eq 'América Móvil Perú'
+      it "responds to #mobile_network_operator with 'Claro Chile S.A.'" do
+        expect(subject.mobile_network_operator).to eq 'Claro Chile S.A.'
       end
-
     end
 
   end

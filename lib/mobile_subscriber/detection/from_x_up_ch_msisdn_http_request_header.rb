@@ -1,8 +1,9 @@
+require 'mobile_subscriber/dictionaries/dialing_and_country_codes'
 module MobileSubscriber
   module Detection
 
     # Módulo que provee métodos de deteccion y validacion para MSISDN's de:
-    # - Claro Brasil
+    # - Vivo Brasil
     module FromXUpChMsisdnHttpRequestHeader
 
       extend ActiveSupport::Concern
@@ -12,8 +13,8 @@ module MobileSubscriber
           header_name = 'X-Up-Ch-Msisdn'
           header_env_key = "HTTP_#{header_name.gsub('-','_').upcase}"
 
-          isdn_attributes = if msisdn = request.env[header_env_key] and msisdn.length >= 8
-
+          isdn_attributes = if msisdn = request.env[header_env_key] and msisdn.strip.length >= 8
+            msisdn.strip!
             detection_cues = {
               remote_ip: request.env["REMOTE_ADDR"],
               http_request_headers: { 'X-Up-Ch-Msisdn' => msisdn }
@@ -25,11 +26,12 @@ module MobileSubscriber
             # TODO: Validar por IP, etc.
             case country_code
             when 'BR'
-              # Claro BR (Claro):
+              # Vivo:
+              # TODO: Determinar el MNC correcto (06, 10, 11, 23)
               {
                 id: msisdn,
                 mobile_country_code: "724",
-                mobile_network_code: "05"
+                mobile_network_code: "06"
               }.merge(detection_cues: detection_cues)
             end
 

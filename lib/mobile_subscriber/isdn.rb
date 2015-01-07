@@ -11,8 +11,9 @@ module MobileSubscriber
 
     include MobileSubscriber::Detection::FromMsisdnHttpRequestHeader
     include MobileSubscriber::Detection::FromXNokiaMsisdnHttpRequestHeader
-    include MobileSubscriber::Detection::FromXUpChMsisdnHttpRequestHeader
     include MobileSubscriber::Detection::FromXUpCallingLineIdHttpRequestHeader
+    include MobileSubscriber::Detection::FromXUpChMsisdnHttpRequestHeader
+    include MobileSubscriber::Detection::FromXUpSubnoHttpRequestHeader
 
     def initialize(attributes={})
       @id                   = attributes.delete :id
@@ -60,7 +61,7 @@ module MobileSubscriber
     def self.new_from_request(request)
       detected_attributes = self.methods.select do |x|
         x.to_s =~ /\Aextract_from_(\w+)_http_request_header\z/i
-      end.reduce(nil) do |attrs, detection_method|
+      end.sort.reduce(nil) do |attrs, detection_method|
         attrs = self.send detection_method, request unless attrs.present?
         attrs
       end

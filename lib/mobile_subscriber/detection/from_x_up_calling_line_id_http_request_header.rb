@@ -1,3 +1,4 @@
+require 'mobile_subscriber/dictionaries/dialing_and_country_codes'
 module MobileSubscriber
   module Detection
 
@@ -19,8 +20,8 @@ module MobileSubscriber
           header_name = 'X-Up-Calling-Line-Id'
           header_env_key = "HTTP_#{header_name.gsub('-','_').upcase}"
 
-          isdn_attributes = if msisdn = request.env[header_env_key] and msisdn.length >= 8
-            
+          isdn_attributes = if msisdn = request.env[header_env_key] and msisdn.strip.length >= 8
+            msisdn.strip!
             detection_cues = {
               remote_ip: request.env["REMOTE_ADDR"],
               http_request_headers: { header_name => msisdn }
