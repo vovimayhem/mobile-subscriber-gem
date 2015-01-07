@@ -1,5 +1,5 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'mobile_subscriber'
+require 'mobile-subscriber'
 require 'byebug'
 require 'factory_girl'
 require 'rack'
