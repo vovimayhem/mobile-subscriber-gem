@@ -41,6 +41,10 @@ describe MobileSubscriber::ISDN do
   describe "detection from request headers" do
 
     shared_examples "of detection from a valid request" do
+      it "is not nil" do
+        expect(subject).not_to be_nil
+      end
+
       it "responds to #http_validated? with true" do
         expect(subject).to be_http_validated
       end
@@ -50,6 +54,7 @@ describe MobileSubscriber::ISDN do
       end
     end
 
+    # of detection from a request made from a {Demonym} mobile network:
     shared_examples "of detection from a request made from a mexican mobile network" do
       it "responds to #id with a string starting with '52'" do
         expect(subject.id).to match /\A52/
@@ -101,6 +106,24 @@ describe MobileSubscriber::ISDN do
 
       it "responds to #iso_3166_country_code with 'BR'" do
         expect(subject.iso_3166_country_code).to eq 'BR'
+      end
+    end
+
+    shared_examples "of detection from a request made from a peruvian mobile network" do
+      it "responds to #id with a string starting with '51'" do
+        expect(subject.id).to match /\A51/
+      end
+
+      it "responds to #mobile_country_code with '716'" do
+        expect(subject.mobile_country_code).to eq '716'
+      end
+
+      it "responds to #dialing_code with '51'" do
+        expect(subject.dialing_code).to eq '51'
+      end
+
+      it "responds to #iso_3166_country_code with 'PE'" do
+        expect(subject.iso_3166_country_code).to eq 'PE'
       end
     end
 
@@ -158,6 +181,22 @@ describe MobileSubscriber::ISDN do
       it "responds to #mobile_network_operator with 'Claro'" do
         expect(subject.mobile_network_operator).to eq 'Claro'
       end
+    end
+
+    context "from a request made from Claro Perú" do
+
+      subject do
+        described_class.new_from_request(build :mobile_request_from_claro_peru)
+      end
+
+      include_examples "of detection from a valid request"
+      include_examples "of detection from a request made from a peruvian mobile network"
+      include_examples "of detection from a request made from a Claro network"
+
+      it "responds to #mobile_network_operator with 'América Móvil Perú'" do
+        expect(subject.mobile_network_operator).to eq 'América Móvil Perú'
+      end
+
     end
 
   end

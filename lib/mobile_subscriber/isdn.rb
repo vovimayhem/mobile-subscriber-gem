@@ -1,21 +1,24 @@
 require 'mobile_subscriber/dictionaries/mobile_and_iso_country_codes'
+require 'mobile_subscriber/dictionaries/dialing_and_country_codes'
 require 'mobile_subscriber/dictionaries/operator_data'
 
 module MobileSubscriber
 
   class ISDN
 
-    attr_reader :id, :mobile_country_code, :mobile_network_code
+    attr_reader :id, :mobile_country_code, :mobile_network_code, :detection_cues
     alias_method :to_s, :id
 
-    include MobileSubscriber::Detection::FromMsisdnHeader
-    include MobileSubscriber::Detection::FromXNokiaMsisdnHeader
-    include MobileSubscriber::Detection::FromXUpChMsisdnHeader
+    include MobileSubscriber::Detection::FromMsisdnHttpRequestHeader
+    include MobileSubscriber::Detection::FromXNokiaMsisdnHttpRequestHeader
+    include MobileSubscriber::Detection::FromXUpChMsisdnHttpRequestHeader
+    include MobileSubscriber::Detection::FromXUpCallingLineIdHttpRequestHeader
 
     def initialize(attributes={})
       @id                   = attributes.delete :id
       @mobile_country_code  = attributes.delete :mobile_country_code
       @mobile_network_code  = attributes.delete :mobile_network_code
+      @detection_cues       = attributes.delete :detection_cues
     end
 
     def dialing_code

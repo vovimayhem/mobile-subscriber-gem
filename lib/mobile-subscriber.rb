@@ -8,8 +8,9 @@ module MobileSubscriber
 
   module Detection
     extend ActiveSupport::Autoload
-    autoload :FromMsisdnHeader
-    autoload :FromXNokiaMsisdnHeader
-    autoload :FromXUpChMsisdnHeader
+    autoload :FromMsisdnHttpRequestHeader
+    autoload :FromXNokiaMsisdnHttpRequestHeader
+    autoload :FromXUpChMsisdnHttpRequestHeader
+    autoload :FromXUpCallingLineIdHttpRequestHeader
   end
 end
