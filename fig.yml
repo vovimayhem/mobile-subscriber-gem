@@ -1,0 +1,15 @@
+# App de prueba:
+dev: &dev_base
+  image: vovimayhem/mobile_subscriber:development
+  volumes:
+    - .:/app
+  environment: &dev_environment
+    RACK_ENV: development
+
+# App Guard: Keeps running tests on a separate process:
+test:
+  <<: *dev_base
+  command: guard start --no-bundler-warning --no-interactions
+  environment:
+    <<: *dev_environment
+    RACK_ENV: test
