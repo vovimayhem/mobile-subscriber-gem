@@ -4,7 +4,11 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'activesupport', "~> 4.0"
-gem 'guard-rspec',  require: false
-gem 'byebug',       require: true
-gem 'thor'
-gem 'nokogiri'
+
+group :development, :test do
+  gem "rake"
+  gem 'guard-rspec',  require: false
+  gem 'byebug',       require: true
+  gem 'thor'
+  gem 'nokogiri'
+end
