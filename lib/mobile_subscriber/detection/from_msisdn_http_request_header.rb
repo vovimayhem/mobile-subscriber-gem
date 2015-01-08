@@ -1,137 +1,70 @@
 require 'mobile_subscriber/dictionaries/dialing_and_country_codes'
 
-module MobileSubscriber
-  module Detection
+module MobileSubscriber::Detection
 
-    # Módulo que provee métodos de detección y validacion para MSISDN por el
-    # header de HTTP 'Msisdn':
-    # - Claro Brasil
-    # - Claro Chile
-    # - Claro Colombia
-    # - Claro Costa Rica
-    # - Claro República Dominicana
-    # - Claro Ecuador
-    # - Claro El Salvador
-    # - Claro Guatemala
-    # - Claro Nicaragua
-    # - Claro Panamá
-    # - Claro Paraguay
-    module FromMsisdnHttpRequestHeader
+  # Módulo que provee métodos de detección y validacion para MSISDN por el
+  # header de HTTP 'Msisdn':
+  # - Claro Brasil
+  # - Claro Chile
+  # - Claro Colombia
+  # - Claro Costa Rica
+  # - Claro República Dominicana
+  # - Claro Ecuador
+  # - Claro El Salvador
+  # - Claro Guatemala
+  # - Claro Nicaragua
+  # - Claro Panamá
+  # - Claro Paraguay
+  module FromMsisdnHttpRequestHeader
 
-      extend ActiveSupport::Concern
+    def extract_from_msisdn_http_request_header(http_request_info)
+      if msisdn = http_request_info.headers['Msisdn'] and msisdn.length >= 8
 
-      module ClassMethods
-        def extract_from_msisdn_http_request_header(request)
-          header_name = 'Msisdn'
-          header_env_key = "HTTP_#{header_name.gsub('-','_').upcase}"
+        country_code = (
+          MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,2]] ||
+          MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,3]]
+        )
 
-          isdn_attributes = nil
+        # Determine the Network Operator (MCC + MNC tuple):
+        # TODO: Validate IP ranges, additional headers, etc.
+        network_id_tuple = case country_code
+        when 'BR' # Claro Brasil
+          # TODO: Determine (if possible) the MNC (05, 38)
+          { mcc: "724", mnc: "05"   }
+        when 'CL' # Claro Chile
+          { mcc: "730", mnc: "03"   }
+        when 'CO' # Claro Colombia
+          { mcc: "732", mnc: "101"  }
+        when 'CR' # Claro Costa Rica
+          { mcc: "712", mnc: "03"   }
+        when 'DO' # Claro Dominicana:
+          { mcc: "370", mnc: "02"   }
+        when 'EC' # Claro Ecuador:
+          { mcc: "740", mnc: "01"   }
+        when 'SV' # Claro El Salvador:
+          { mcc: "706", mnc: "01"   }
+        when 'GT' # Claro Guatemala:
+          { mcc: "704", mnc: "01"   }
+        when 'HN' # Claro Honduras:
+          { mcc: "708", mnc: "001"  }
+        when 'NI' # Claro Nicaragua:
+          { mcc: "710", mnc: "21"   }
+        when 'PA' # Claro Panamá:
+          { mcc: "714", mnc: "03"   }
+        when 'PY' # Claro Paraguay:
+          { mcc: "744", mnc: "02"   }
+        end
 
-          isdn_attributes = if msisdn = request.env[header_env_key] and msisdn.strip.length >= 8
-            msisdn.strip!
-            detection_cues = {
-              remote_ip: request.env["REMOTE_ADDR"],
-              http_request_headers: { 'Msisdn' => msisdn }
-            }
-
-            country_code = MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,2]] || MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,3]]
-
-            # Determinar la procedencia del MSISDN
-            # TODO: Validar por IP, etc.
-            case country_code
-            when 'BR'
-              # Claro Brasil
-              # TODO: Determinar correctamente el MNC (05, 38)
-              {
-                id: msisdn,
-                mobile_country_code: "724",
-                mobile_network_code: "05"
-              }.merge(detection_cues: detection_cues)
-            when 'CL'
-              # Claro Chile
-              {
-                id: msisdn,
-                mobile_country_code: "730",
-                mobile_network_code: "03"
-              }.merge(detection_cues: detection_cues)
-            when 'CO'
-              # Claro Colombia
-              {
-                id: msisdn,
-                mobile_country_code: "732",
-                mobile_network_code: "101"
-              }.merge(detection_cues: detection_cues)
-            when 'CR'
-              # Claro Costa Rica
-              {
-                id: msisdn,
-                mobile_country_code: "712",
-                mobile_network_code: "03"
-              }.merge(detection_cues: detection_cues)
-            when 'DO'
-              # Claro Dominicana:
-              {
-                id: msisdn,
-                mobile_country_code: "370",
-                mobile_network_code: "02"
-              }.merge(detection_cues: detection_cues)
-            when 'EC'
-              # Claro Ecuador:
-              {
-                id: msisdn,
-                mobile_country_code: "740",
-                mobile_network_code: "01"
-              }.merge(detection_cues: detection_cues)
-            when 'SV'
-              # Claro El Salvador:
-              {
-                id: msisdn,
-                mobile_country_code: "706",
-                mobile_network_code: "01"
-              }.merge(detection_cues: detection_cues)
-            when 'GT'
-              # Claro Guatemala:
-              {
-                id: msisdn,
-                mobile_country_code: "704",
-                mobile_network_code: "01"
-              }.merge(detection_cues: detection_cues)
-            when 'HN'
-              # Claro Honduras:
-              {
-                id: msisdn,
-                mobile_country_code: "708",
-                mobile_network_code: "001"
-              }.merge(detection_cues: detection_cues)
-            when 'NI'
-              # Claro Nicaragua:
-              {
-                id: msisdn,
-                mobile_country_code: "710",
-                mobile_network_code: "21"
-              }.merge(detection_cues: detection_cues)
-            when 'PA'
-              # Claro Panamá:
-              {
-                id: msisdn,
-                mobile_country_code: "714",
-                mobile_network_code: "03"
-              }.merge(detection_cues: detection_cues)
-            when 'PY'
-              # Claro Paraguay:
-              {
-                id: msisdn,
-                mobile_country_code: "744",
-                mobile_network_code: "02"
-              }.merge(detection_cues: detection_cues)
-            end
-
-          end
-
-          isdn_attributes
+        # Return only if we identified the network:
+        if network_id_tuple.present?
+          {
+            id:                   msisdn,
+            mobile_country_code:  network_id_tuple[:mcc],
+            mobile_network_code:  network_id_tuple[:mnc],
+            http_request_info:    http_request_info
+          }
         end
       end
-
     end
   end
 end

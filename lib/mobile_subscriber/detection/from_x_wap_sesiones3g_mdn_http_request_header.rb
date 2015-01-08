@@ -1,13 +1,13 @@
 require 'mobile_subscriber/dictionaries/dialing_and_country_codes'
+
 module MobileSubscriber::Detection
+  # Módulo que provee métodos de detección y validacion para MSISDN por el
+  # header de HTTP 'X-Wap-Sesiones3g-Mdn':
+  # - Iusacell
+  module FromXWapSesiones3gMdnHttpRequestHeader
 
-  # Módulo que provee métodos de deteccion y validacion para MSISDN's de:
-  # - Telcel México
-  # - Claro Argentina
-  module FromXNokiaMsisdnHttpRequestHeader
-
-    def extract_from_x_nokia_msisdn_http_request_header(http_request_info)
-      if msisdn = http_request_info.headers['X-Nokia-Msisdn'] and msisdn.length >= 8
+    def extract_from_x_wap_sesiones3g_mdn_http_request_header(http_request_info)
+      if msisdn = http_request_info.headers['X-Wap-Sesiones3g-Mdn'] and msisdn.length >= 8
 
         country_code = (
           MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,2]] ||
@@ -17,11 +17,11 @@ module MobileSubscriber::Detection
         # Determine the Network Operator tuple (MCC + MNC):
         # TODO: Validate IP ranges, additional headers, etc.
         network_id_tuple = case country_code
-        when 'MX' # Telcel México:
-          { mcc: "334", mnc: "020"  }
-
-        when 'AR' # Claro Argentina:
-          { mcc: "722", mnc: "330"  }
+        when 'MX' # Iusacell Mexico:
+          # TODO: Determine (if possible) the MNC:
+          # - MNC "040": Iusacell/Unefon
+          # - MNC "050": Iusacell
+          { mcc: "334", mnc: "040" }
         end
 
         # Return only if we identified the network:

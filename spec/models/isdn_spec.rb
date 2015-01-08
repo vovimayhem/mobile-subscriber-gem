@@ -38,6 +38,10 @@ describe MobileSubscriber::ISDN do
     expect(subject).to respond_to :http_validated?
   end
 
+  it "responds to #http_request_info" do
+    expect(subject).to respond_to :http_request_info
+  end
+
   describe "detection from request headers" do
 
     shared_examples "of detection from a valid request" do

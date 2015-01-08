@@ -1,48 +1,35 @@
 require 'mobile_subscriber/dictionaries/dialing_and_country_codes'
-module MobileSubscriber
-  module Detection
+module MobileSubscriber::Detection
+  # Módulo que provee métodos de deteccion y validacion para MSISDN por el
+  # header de HTTP 'Msisdn':
+  #  - Comcel Colombia
+  module FromXUpSubnoHttpRequestHeader
 
-    # Módulo que provee métodos de deteccion y validacion para MSISDN por el
-    # header de HTTP 'Msisdn':
-    #  - Comcel Colombia
-    module FromXUpSubnoHttpRequestHeader
+    def extract_from_x_up_subno_http_request_header(http_request_info)
+      if msisdn = http_request_info.headers['X-Up-Subno'] and msisdn.length >= 8
 
-      extend ActiveSupport::Concern
+        country_code = (
+          MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,2]] ||
+          MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,3]]
+        )
 
-      module ClassMethods
-        def extract_from_x_up_subno_http_request_header(request)
-          header_name = 'X-Up-Subno'
-          header_env_key = "HTTP_#{header_name.gsub('-','_').upcase}"
+        # Determine the Network Operator tuple (MCC + MNC):
+        # TODO: Validate IP ranges, additional headers, etc.
+        network_id_tuple = case country_code
+        when 'CO' # Comcel Colombia
+          { mcc: "732", mnc: "101" }
+        end
 
-          isdn_attributes = nil
-
-          isdn_attributes = if msisdn = request.env[header_env_key] and msisdn.strip.length >= 8
-            msisdn.strip!
-            detection_cues = {
-              remote_ip: request.env["REMOTE_ADDR"],
-              http_request_headers: { header_name => msisdn }
-            }
-
-            country_code = MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,2]] || MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,3]]
-
-            # Determinar la procedencia del MSISDN
-            # TODO: Validar por IP, etc.
-            case country_code
-            when 'CO'
-              # Comcel Colombia
-              {
-                id: msisdn,
-                mobile_country_code: "732",
-                mobile_network_code: "101"
-              }.merge(detection_cues: detection_cues)
-            end
-
-          end
-
-          isdn_attributes
+        # Return only if we identified the network:
+        if network_id_tuple.present?
+          {
+            id:                   msisdn,
+            mobile_country_code:  network_id_tuple[:mcc],
+            mobile_network_code:  network_id_tuple[:mnc],
+            http_request_info:    http_request_info
+          }
         end
       end
-
     end
   end
 end

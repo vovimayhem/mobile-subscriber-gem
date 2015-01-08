@@ -6,20 +6,20 @@ module MobileSubscriber
 
   class ISDN
 
-    attr_reader :id, :mobile_country_code, :mobile_network_code, :detection_cues
+    attr_reader :id, :mobile_country_code, :mobile_network_code, :http_request_info
     alias_method :to_s, :id
 
-    include MobileSubscriber::Detection::FromMsisdnHttpRequestHeader
-    include MobileSubscriber::Detection::FromXNokiaMsisdnHttpRequestHeader
-    include MobileSubscriber::Detection::FromXUpCallingLineIdHttpRequestHeader
-    include MobileSubscriber::Detection::FromXUpChMsisdnHttpRequestHeader
-    include MobileSubscriber::Detection::FromXUpSubnoHttpRequestHeader
+    extend MobileSubscriber::Detection::FromMsisdnHttpRequestHeader
+    extend MobileSubscriber::Detection::FromXNokiaMsisdnHttpRequestHeader
+    extend MobileSubscriber::Detection::FromXUpCallingLineIdHttpRequestHeader
+    extend MobileSubscriber::Detection::FromXUpChMsisdnHttpRequestHeader
+    extend MobileSubscriber::Detection::FromXUpSubnoHttpRequestHeader
 
     def initialize(attributes={})
       @id                   = attributes.delete :id
       @mobile_country_code  = attributes.delete :mobile_country_code
       @mobile_network_code  = attributes.delete :mobile_network_code
-      @detection_cues       = attributes.delete :detection_cues
+      @http_request_info    = attributes.delete :http_request_info
     end
 
     def dialing_code
@@ -47,8 +47,6 @@ module MobileSubscriber
       end
     end
 
-
-
     def inspect
       "<MobileSubscriber::ISDN #{self.id} (#{self.http_validated? ? '' : 'not '}validated by HTTP)>"
     end
@@ -59,15 +57,19 @@ module MobileSubscriber
 
     # Creates a new MobileSubscriber::ISDN from a Rack::Request object
     def self.new_from_request(request)
-      detected_attributes = self.methods.select do |x|
-        x.to_s =~ /\Aextract_from_(\w+)_http_request_header\z/i
-      end.sort.reduce(nil) do |attrs, detection_method|
-        attrs = self.send detection_method, request unless attrs.present?
-        attrs
-      end
+      http_request_info = Detection::HttpRequestInfo.new request.env
 
-      if detected_attributes.present?
-        validated_isdn = new(detected_attributes)
+      detection_results = self.methods.select do |x|
+        x.to_s =~ /\Aextract_from_(\w+)_http_request_header\z/i
+      end.map do |detection_method|
+        self.send detection_method, http_request_info
+      end.compact
+
+      # TODO: Select first from a preference order:
+      detection = detection_results.first if detection_results.any?
+
+      if detection.present?
+        validated_isdn = new(detection)
         validated_isdn.send :http_validated!
         validated_isdn
       end
