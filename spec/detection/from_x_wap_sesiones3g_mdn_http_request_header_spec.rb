@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe MobileSubscriber::Detection::FromXWapSesiones3gMdnHttpRequestHeader, focus: true do
+describe MobileSubscriber::Detection::FromXWapSesiones3gMdnHttpRequestHeader do
 
   include described_class
 
