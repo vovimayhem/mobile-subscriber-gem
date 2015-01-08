@@ -1,3 +1,3 @@
 module MobileSubscriber
-  VERSION = "0.0.1.alpha5"
+  VERSION = "0.0.1.beta1"
 end
