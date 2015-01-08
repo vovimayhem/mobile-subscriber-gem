@@ -1,5 +1,7 @@
 # MobileSubscriber Gem
 
+[![Build Status](https://travis-ci.org/vovimayhem/mobile-subscriber-gem.svg?branch=master)](https://travis-ci.org/vovimayhem/mobile-subscriber-gem)
+
 It's a fact that the Mobile network providers (carriers, operators & such) share
 subscriber identity data to approved 3rd parties when users navigate via Web to
 the 3rd parties' websites.
