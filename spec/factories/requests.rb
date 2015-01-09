@@ -37,7 +37,7 @@ FactoryGirl.define do
     factory :mobile_request_from_telcel_mexico do
       initialize_with do
         new build(:common_mobile_request_env).merge(
-          "REMOTE_ADDR"           =>  "201.144.162.4",
+          "REMOTE_ADDR"           =>  "200.95.170.44",
           "HTTP_X_NOKIA_MSISDN"   =>  "528110000000"
         )
       end
@@ -46,7 +46,7 @@ FactoryGirl.define do
     factory :mobile_request_from_claro_argentina do
       initialize_with do
         new build(:common_mobile_request_env).merge(
-          "REMOTE_ADDR"           =>  "170.51.255.240",
+          "REMOTE_ADDR"           =>  "186.158.0.240",
           "HTTP_X_NOKIA_MSISDN"   =>  "5491141090000"
         )
       end

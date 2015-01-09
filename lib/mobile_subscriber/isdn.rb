@@ -1,7 +1,7 @@
 require 'mobile_subscriber/dictionaries/mobile_and_iso_country_codes'
 require 'mobile_subscriber/dictionaries/dialing_and_country_codes'
 require 'mobile_subscriber/dictionaries/operator_data'
-
+require 'mobile_subscriber/dictionaries/ip_ranges'
 module MobileSubscriber
 
   class ISDN
@@ -48,11 +48,7 @@ module MobileSubscriber
     end
 
     def inspect
-      "<MobileSubscriber::ISDN #{self.id} (#{self.http_validated? ? '' : 'not '}validated by HTTP)>"
-    end
-
-    def http_validated?
-      @http_validated ||= false
+      "<MobileSubscriber::ISDN #{self.id} (#{self.valid? ? '' : 'not '}valid)>"
     end
 
     # Creates a new MobileSubscriber::ISDN from a Rack::Request object
@@ -68,18 +64,39 @@ module MobileSubscriber
       # TODO: Select first from a preference order:
       detection = detection_results.first if detection_results.any?
 
-      if detection.present?
-        validated_isdn = new(detection)
-        validated_isdn.send :http_validated!
-        validated_isdn
+      if detection.present? and (isdn = new detection).valid?
+        isdn
       end
     end
 
-    protected
+    def mcc_mnc
+      [self.mobile_country_code, self.mobile_network_code]
+    end
 
-      def http_validated!
-        @http_validated = true
+    def valid?
+      validation_passed = MobileSubscriber.config.disable_ip_check
+
+      # Check IP Range:
+      unless validation_passed
+
+        # TODO: Check proxying
+        user_ip_address = self.http_request_info.remote_ip
+
+        ip_ranges = MobileSubscriber::OPERATOR_IP_RANGES[self.mcc_mnc]
+
+        if (ip_ranges.present? && ip_ranges.count == 2 && ip_ranges.map(&:class).map(&:name).uniq == ["String"])
+          ip_ranges = MobileSubscriber::OPERATOR_IP_RANGES[ip_ranges]
+        end
+
+        if ip_ranges.present?
+          validations = ip_ranges.map do |ip_range|
+            ip_range.include? user_ip_address
+          end.uniq
+          validation_passed = validations.include? true
+        end
       end
+      validation_passed
+    end
 
   end
 

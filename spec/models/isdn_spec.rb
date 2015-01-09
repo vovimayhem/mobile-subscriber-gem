@@ -34,10 +34,6 @@ describe MobileSubscriber::ISDN do
     expect(subject).to respond_to :mobile_network_operator
   end
 
-  it "responds to #http_validated?" do
-    expect(subject).to respond_to :http_validated?
-  end
-
   it "responds to #http_request_info" do
     expect(subject).to respond_to :http_request_info
   end
@@ -49,12 +45,8 @@ describe MobileSubscriber::ISDN do
         expect(subject).not_to be_nil
       end
 
-      it "responds to #http_validated? with true" do
-        expect(subject).to be_http_validated
-      end
-
-      it "responds to #inspect with a string containing '(validated by HTTP)'" do
-        expect(subject.inspect).to match /\(validated by HTTP\)>\z/
+      it "responds to #inspect with a string containing '(valid)'" do
+        expect(subject.inspect).to match /\(valid\)>\z/
       end
     end
 

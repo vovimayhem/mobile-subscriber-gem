@@ -57,12 +57,13 @@ module MobileSubscriber::Detection
 
         # Return only if we identified the network:
         if network_id_tuple.present?
-          {
+          detected_data = {
             id:                   msisdn,
             mobile_country_code:  network_id_tuple[:mcc],
             mobile_network_code:  network_id_tuple[:mnc],
             http_request_info:    http_request_info
           }
+
         end
       end
     end
