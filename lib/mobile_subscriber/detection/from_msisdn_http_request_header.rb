@@ -12,6 +12,7 @@ module MobileSubscriber::Detection
   # - Claro Ecuador
   # - Claro El Salvador
   # - Claro Guatemala
+  # - Claro Honduras
   # - Claro Nicaragua
   # - Claro Panamá
   # - Claro Paraguay
