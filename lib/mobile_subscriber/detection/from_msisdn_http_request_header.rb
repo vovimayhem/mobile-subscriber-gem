@@ -11,7 +11,6 @@ module MobileSubscriber::Detection
   # - Claro República Dominicana
   # - Claro Ecuador
   # - Claro El Salvador
-  # - Claro Honduras
   # - Claro Nicaragua
   # - Claro Panamá
   # - Claro Paraguay
@@ -44,8 +43,6 @@ module MobileSubscriber::Detection
           { mcc: "740", mnc: "01"   }
         when 'SV' # Claro El Salvador:
           { mcc: "706", mnc: "01"   }
-        when 'HN' # Claro Honduras:
-          { mcc: "708", mnc: "001"  }
         when 'NI' # Claro Nicaragua:
           { mcc: "710", mnc: "21"   }
         when 'PA' # Claro Panamá:
