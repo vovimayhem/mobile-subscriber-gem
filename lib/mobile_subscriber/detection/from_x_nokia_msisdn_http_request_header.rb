@@ -4,6 +4,7 @@ module MobileSubscriber::Detection
   # Módulo que provee métodos de deteccion y validacion para MSISDN's de:
   # - Telcel México
   # - Claro Argentina
+  # - Claro Guatemala
   module FromXNokiaMsisdnHttpRequestHeader
 
     def extract_from_x_nokia_msisdn_http_request_header(http_request_info)
@@ -19,9 +20,10 @@ module MobileSubscriber::Detection
         network_id_tuple = case country_code
         when 'MX' # Telcel México:
           { mcc: "334", mnc: "020"  }
-
         when 'AR' # Claro Argentina:
           { mcc: "722", mnc: "330"  }
+        when 'GT' # Claro Guatemala:
+          { mcc: "704", mnc: "01"   }
         end
 
         # Return only if we identified the network:
