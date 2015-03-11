@@ -90,6 +90,19 @@ FactoryGirl.define do
       end
     end
 
+    # Request from a client through Claro Guatemala network:
+    # (Built from an actual ATP test)
+    factory :mobile_request_from_claro_guatemala do
+      initialize_with do
+        new build(:common_mobile_request_env).merge(
+          "REMOTE_ADDR" =>  "216.230.152.158",
+          "HTTP_X_NOKIA_MSISDN" => "50241865146",
+          "HTTP_X_NOKIA_IMSI" => "704012013128442",
+          "HTTP_X_FORWARDED_FOR" => "190.212.233.218, 204.0.3.199"
+        )
+      end
+    end
+
     # http://myip.ms/view/ip_owners/90291/America_Movil_Peru_S_a_c.html
     factory :mobile_request_from_claro_peru do
       initialize_with do

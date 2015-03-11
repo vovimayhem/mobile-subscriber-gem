@@ -34,6 +34,16 @@ describe MobileSubscriber::Detection::FromXNokiaMsisdnHttpRequestHeader do
         expect(subject[:mobile_network_code]).to match /310|320|330/
       end
     end
+
+    context "when given a request made from Claro Guatemala" do
+      let(:test_request) { build :mobile_request_from_claro_guatemala }
+
+      include_examples "of detection of msisdn from a valid guatemalan mobile network http request"
+
+      it "has a :mobile_network_code value of '01'" do
+        expect(subject[:mobile_network_code]).to eq '01'
+      end
+    end
   end
 
 end
