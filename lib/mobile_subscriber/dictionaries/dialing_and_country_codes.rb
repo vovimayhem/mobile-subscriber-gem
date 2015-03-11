@@ -1,6 +1,11 @@
 module MobileSubscriber
-  # Diccionario de Mobile Country Codes => ISO country codes:
+  # Diccionario de Dialing Country Codes => ISO country codes:
   DIALING_COUNTRY_CODES = {
+    # Caribbean Islands' country codes are a mess!
+    '1809' => 'DO', # Dominican Republic
+    '1829' => 'DO', # Dominican Republic Overlay 1
+    '1849' => 'DO', # Dominican Republic Overlay 2
+
     '501'	=> 'BZ',	# Belize
     '502'	=> 'GT',	# Guatemala
     '503'	=> 'SV',	# El Salvador

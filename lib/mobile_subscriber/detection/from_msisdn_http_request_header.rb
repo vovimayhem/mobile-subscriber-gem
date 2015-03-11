@@ -23,7 +23,8 @@ module MobileSubscriber::Detection
 
         country_code = (
           MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,2]] ||
-          MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,3]]
+          MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,3]] ||
+          MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,4]]     # Dominican Republic
         )
 
         # Determine the Network Operator (MCC + MNC tuple):
