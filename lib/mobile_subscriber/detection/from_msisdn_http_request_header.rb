@@ -7,7 +7,6 @@ module MobileSubscriber::Detection
   # - Claro Brasil
   # - Claro República Dominicana
   # - Claro Ecuador
-  # - Claro El Salvador
   # - Claro Paraguay
   module FromMsisdnHttpRequestHeader
 
@@ -30,8 +29,6 @@ module MobileSubscriber::Detection
           { mcc: "370", mnc: "02"  }
         when 'EC' # Claro Ecuador:
           { mcc: "740", mnc: "01"  }
-        when 'SV' # Claro El Salvador:
-          { mcc: "706", mnc: "01"  }
         when 'PY' # Claro Paraguay:
           { mcc: "744", mnc: "02"  }
         end

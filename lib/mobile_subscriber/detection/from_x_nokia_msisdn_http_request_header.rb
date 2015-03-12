@@ -9,6 +9,7 @@ module MobileSubscriber::Detection
   # - Claro Guatemala
   # - Claro Honduras
   # - Claro Nicaragua
+  # - Claro El Salvador
   module FromXNokiaMsisdnHttpRequestHeader
 
     def extract_from_x_nokia_msisdn_http_request_header(http_request_info)
@@ -26,6 +27,8 @@ module MobileSubscriber::Detection
           { mcc: "334", mnc: "020"  }
         when 'GT' # Claro Guatemala:
           { mcc: "704", mnc: "01"   }
+        when 'SV' # Claro El Salvador:
+          { mcc: "706", mnc: "01"  }
         when 'HN' # Claro Honduras:
           { mcc: "708", mnc: "001"  }
         when 'NI' # Claro Nicaragua:
