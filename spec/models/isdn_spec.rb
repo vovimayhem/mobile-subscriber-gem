@@ -44,7 +44,12 @@ describe MobileSubscriber::ISDN do
 
   describe "detection from request headers" do
 
-    shared_examples "of detection from a valid request" do
+    context "from a request made from a valid mobile network" do
+
+      subject do
+        described_class.new_from_request(build :mobile_request_from_telcel_mexico)
+      end
+
       it "is not nil" do
         expect(subject).not_to be_nil
       end
@@ -56,184 +61,31 @@ describe MobileSubscriber::ISDN do
       it "responds to #inspect with a string containing '(validated by HTTP)'" do
         expect(subject.inspect).to match /\(validated by HTTP\)>\z/
       end
-    end
 
-    # of detection from a request made from a {Demonym} mobile network:
-    shared_examples "of detection from a request made from a mexican mobile network" do
-      it "responds to #id with a string starting with '52'" do
-        expect(subject.id).to match /\A52/
+      it "#id is present" do
+        expect(subject.id).to be_present
       end
 
-      it "responds to #mobile_country_code with '334'" do
-        expect(subject.mobile_country_code).to eq '334'
+      it "#mobile_country_code is present" do
+        expect(subject.mobile_country_code).to be_present
       end
 
-      it "responds to #dialing_code with '52'" do
-        expect(subject.dialing_code).to eq '52'
+      it "#dialing_code is present" do
+        expect(subject.dialing_code).to be_present
       end
 
-      it "responds to #iso_3166_country_code with 'MX'" do
-        expect(subject.iso_3166_country_code).to eq 'MX'
-      end
-    end
-
-    shared_examples "of detection from a request made from an argentinian mobile network" do
-      it "responds to #id with a string starting with '54'" do
-        expect(subject.id).to match /\A54/
+      it "#iso_3166_country_code is present" do
+        expect(subject.iso_3166_country_code).to be_present
       end
 
-      it "responds to #mobile_country_code with '722'" do
-        expect(subject.mobile_country_code).to eq '722'
+      it "#mobile_network_brand is present" do
+        expect(subject.mobile_network_brand).to be_present
       end
 
-      it "responds to #dialing_code with '54'" do
-        expect(subject.dialing_code).to eq '54'
+      it "#mobile_network_operator is present" do
+        expect(subject.mobile_network_operator).to be_present
       end
 
-      it "responds to #iso_3166_country_code with 'AR'" do
-        expect(subject.iso_3166_country_code).to eq 'AR'
-      end
-    end
-
-    shared_examples "of detection from a request made from a brazilian mobile network" do
-      it "responds to #id with a string starting with '55'" do
-        expect(subject.id).to match /\A55/
-      end
-
-      it "responds to #mobile_country_code with '724'" do
-        expect(subject.mobile_country_code).to eq '724'
-      end
-
-      it "responds to #dialing_code with '55'" do
-        expect(subject.dialing_code).to eq '55'
-      end
-
-      it "responds to #iso_3166_country_code with 'BR'" do
-        expect(subject.iso_3166_country_code).to eq 'BR'
-      end
-    end
-
-    shared_examples "of detection from a request made from a chilean mobile network" do
-      it "responds to #id with a string starting with '56'" do
-        expect(subject.id).to match /\A56/
-      end
-
-      it "responds to #mobile_country_code with '730'" do
-        expect(subject.mobile_country_code).to eq '730'
-      end
-
-      it "responds to #dialing_code with '56'" do
-        expect(subject.dialing_code).to eq '56'
-      end
-
-      it "responds to #iso_3166_country_code with 'CL'" do
-        expect(subject.iso_3166_country_code).to eq 'CL'
-      end
-    end
-
-    shared_examples "of detection from a request made from a peruvian mobile network" do
-      it "responds to #id with a string starting with '51'" do
-        expect(subject.id).to match /\A51/
-      end
-
-      it "responds to #mobile_country_code with '716'" do
-        expect(subject.mobile_country_code).to eq '716'
-      end
-
-      it "responds to #dialing_code with '51'" do
-        expect(subject.dialing_code).to eq '51'
-      end
-
-      it "responds to #iso_3166_country_code with 'PE'" do
-        expect(subject.iso_3166_country_code).to eq 'PE'
-      end
-    end
-
-    shared_examples "of detection from a request made from a Claro network" do
-      it "responds to #mobile_network_brand with a string containing 'Claro'" do
-        expect(subject.mobile_network_brand).to match /\AClaro/
-      end
-    end
-
-    context "from a request made from Telcel México" do
-
-      subject do
-        described_class.new_from_request(build :mobile_request_from_telcel_mexico)
-      end
-
-      include_examples "of detection from a valid request"
-      include_examples "of detection from a request made from a mexican mobile network"
-
-      it "responds to #mobile_network_brand with 'Telcel'" do
-        expect(subject.mobile_network_brand).to eq 'Telcel'
-      end
-
-      it "responds to #mobile_network_operator with 'América Móvil'" do
-        expect(subject.mobile_network_operator).to eq 'América Móvil'
-      end
-
-    end
-
-    context "from a request made from Claro Argentina" do
-
-      subject do
-        described_class.new_from_request(build :mobile_request_from_claro_argentina)
-      end
-
-      include_examples "of detection from a valid request"
-      include_examples "of detection from a request made from an argentinian mobile network"
-      include_examples "of detection from a request made from a Claro network"
-
-      it "responds to #mobile_network_operator with 'AMX Argentina S.A.'" do
-        expect(subject.mobile_network_operator).to eq 'AMX Argentina S.A.'
-      end
-
-    end
-
-    context "from a request made from Claro Perú" do
-
-      subject do
-        described_class.new_from_request(build :mobile_request_from_claro_peru)
-      end
-
-      include_examples "of detection from a valid request"
-      include_examples "of detection from a request made from a peruvian mobile network"
-      include_examples "of detection from a request made from a Claro network"
-
-      it "responds to #mobile_network_operator with 'América Móvil Perú'" do
-        expect(subject.mobile_network_operator).to eq 'América Móvil Perú'
-      end
-
-    end
-
-    context "from a request made from Claro Brasil" do
-
-      subject do
-        described_class.new_from_request(build :mobile_request_from_claro_brasil)
-      end
-
-      include_examples "of detection from a valid request"
-      include_examples "of detection from a request made from a brazilian mobile network"
-      include_examples "of detection from a request made from a Claro network"
-
-      it "responds to #mobile_network_operator with 'Claro'" do
-        expect(subject.mobile_network_operator).to eq 'Claro'
-      end
-    end
-
-    context "from a request made from Claro Chile" do
-
-      subject do
-        described_class.new_from_request(build :mobile_request_from_claro_chile)
-      end
-
-      include_examples "of detection from a valid request"
-      include_examples "of detection from a request made from a chilean mobile network"
-      include_examples "of detection from a request made from a Claro network"
-
-      it "responds to #mobile_network_operator with 'Claro Chile S.A.'" do
-        expect(subject.mobile_network_operator).to eq 'Claro Chile S.A.'
-      end
     end
 
   end
