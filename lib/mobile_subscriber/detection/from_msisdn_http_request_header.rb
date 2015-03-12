@@ -5,14 +5,11 @@ module MobileSubscriber::Detection
   # Módulo que provee métodos de detección y validacion para MSISDN por el
   # header de HTTP 'Msisdn':
   # - Claro Brasil
-  # - Claro Chile
-  # - Claro Colombia
   # - Claro Costa Rica
   # - Claro República Dominicana
   # - Claro Ecuador
   # - Claro El Salvador
   # - Claro Nicaragua
-  # - Claro Panamá
   # - Claro Paraguay
   module FromMsisdnHttpRequestHeader
 
@@ -30,25 +27,19 @@ module MobileSubscriber::Detection
         network_id_tuple = case country_code
         when 'BR' # Claro Brasil
           # TODO: Determine (if possible) the MNC (05, 38)
-          { mcc: "724", mnc: "05"   }
-        when 'CL' # Claro Chile
-          { mcc: "730", mnc: "03"   }
-        when 'CO' # Claro Colombia
-          { mcc: "732", mnc: "101"  }
+          { mcc: "724", mnc: "05"  }
         when 'CR' # Claro Costa Rica
-          { mcc: "712", mnc: "03"   }
+          { mcc: "712", mnc: "03"  }
         when 'DO' # Claro Dominicana:
-          { mcc: "370", mnc: "02"   }
+          { mcc: "370", mnc: "02"  }
         when 'EC' # Claro Ecuador:
-          { mcc: "740", mnc: "01"   }
+          { mcc: "740", mnc: "01"  }
         when 'SV' # Claro El Salvador:
-          { mcc: "706", mnc: "01"   }
+          { mcc: "706", mnc: "01"  }
         when 'NI' # Claro Nicaragua:
-          { mcc: "710", mnc: "21"   }
-        when 'PA' # Claro Panamá:
-          { mcc: "714", mnc: "03"   }
+          { mcc: "710", mnc: "21"  }
         when 'PY' # Claro Paraguay:
-          { mcc: "744", mnc: "02"   }
+          { mcc: "744", mnc: "02"  }
         end
 
         # Return only if we identified the network:

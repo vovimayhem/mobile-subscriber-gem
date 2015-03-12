@@ -1,15 +1,13 @@
 require 'mobile_subscriber/dictionaries/dialing_and_country_codes'
 
 module MobileSubscriber::Detection
-  # Módulo que provee métodos de deteccion y validacion para MSISDN por el
-  # header de HTTP 'X-Up-Subno':
-  # - Claro Colombia
-  # - Claro Panamá
-  # - Comcel Colombia
-  module FromXUpSubnoHttpRequestHeader
+  # Módulo que provee métodos de detección y validacion para MSISDN por el
+  # header de HTTP 'X-Ztgo-Beareraddress':
+  # - Movistar Ecuador
+  module FromXZtgoBeareraddressHttpRequestHeader
 
-    def extract_from_x_up_subno_http_request_header(http_request_info)
-      if msisdn = http_request_info.headers['X-Up-Subno'] and msisdn.length >= 8
+    def extract_from_x_ztgo_beareraddress_http_request_header(http_request_info)
+      if msisdn = http_request_info.headers['X-Ztgo-Beareraddress'] and msisdn.length >= 8
 
         country_code = (
           MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,2]] ||
@@ -19,14 +17,8 @@ module MobileSubscriber::Detection
         # Determine the Network Operator tuple (MCC + MNC):
         # TODO: Validate IP ranges, additional headers, etc.
         network_id_tuple = case country_code
-        when 'CO'
-          # TODO: Discernir por ip/hostname
-          #{ mcc: "732", mnc: "101" } # Comcel Colombia
-
-          # Claro Colombia
-          { mcc: "732", mnc: "101" }
-        when 'PA' # Claro Panamá:
-          { mcc: "714", mnc: "03"  }
+        when 'EC' # Movistar Ecuador:
+          { mcc: "740", mnc: "00" }
         end
 
         # Return only if we identified the network:

@@ -13,7 +13,9 @@ module MobileSubscriber
     autoload :FromXUpCallingLineIdHttpRequestHeader
     autoload :FromXUpChMsisdnHttpRequestHeader
     autoload :FromXUpSubnoHttpRequestHeader
+    autoload :FromXWapMsisdnHttpRequestHeader
     autoload :FromXWapSesiones3gMdnHttpRequestHeader
+    autoload :FromXZtgoBeareraddressHttpRequestHeader
     autoload :HttpRequestInfo
   end
 end

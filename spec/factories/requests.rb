@@ -66,7 +66,7 @@ FactoryGirl.define do
       initialize_with do
         new build(:common_mobile_request_env).merge(
           "REMOTE_ADDR" =>  "191.116.39.114",
-          "HTTP_MSISDN" =>  "56024440000"
+          "HTTP_X_WAP_MSISDN" =>  "56024440000"
         )
       end
     end
@@ -75,7 +75,7 @@ FactoryGirl.define do
       initialize_with do
         new build(:common_mobile_request_env).merge(
           "REMOTE_ADDR" =>  "200.26.137.100",
-          "HTTP_MSISDN" =>  "57000000000"
+          "HTTP_X_UP_SUBNO" =>  "57000000000"
         )
       end
     end

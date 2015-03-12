@@ -1,4 +1,5 @@
 require 'mobile_subscriber/dictionaries/dialing_and_country_codes'
+
 module MobileSubscriber::Detection
 
   # Módulo que provee métodos de deteccion y validacion para MSISDN's de:

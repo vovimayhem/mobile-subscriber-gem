@@ -14,6 +14,9 @@ module MobileSubscriber
     extend MobileSubscriber::Detection::FromXUpCallingLineIdHttpRequestHeader
     extend MobileSubscriber::Detection::FromXUpChMsisdnHttpRequestHeader
     extend MobileSubscriber::Detection::FromXUpSubnoHttpRequestHeader
+    extend MobileSubscriber::Detection::FromXWapMsisdnHttpRequestHeader
+    extend MobileSubscriber::Detection::FromXWapSesiones3gMdnHttpRequestHeader
+    extend MobileSubscriber::Detection::FromXZtgoBeareraddressHttpRequestHeader
 
     def initialize(attributes={})
       @id                   = attributes.delete :id

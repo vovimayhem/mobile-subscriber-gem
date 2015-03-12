@@ -1,4 +1,5 @@
 require 'mobile_subscriber/dictionaries/dialing_and_country_codes'
+
 module MobileSubscriber::Detection
 
   # Módulo que provee métodos de deteccion y validacion para MSISDN por el
@@ -8,7 +9,6 @@ module MobileSubscriber::Detection
   # - OI Brasil
   # - Movistar México
   # - Movistar Argentina
-  # - Movistar Ecuador
   # - Movistar Perú
   module FromXUpCallingLineIdHttpRequestHeader
 
@@ -25,10 +25,10 @@ module MobileSubscriber::Detection
         network_id_tuple = case country_code
         when 'PE'
           if (via_header = http_request_info.headers['Via']).present? and via_header =~ /Comverse/i
-            # Claro Peru:
+            # Claro Peru: (IP's 190.113.x)
             { mcc: "716", mnc: "10" }
           else
-            # Movistar Peru:
+            # Movistar Peru: (IP's 190.238.x)
             { mcc: "716", mnc: "06" }
           end
         when 'BR'
@@ -46,8 +46,6 @@ module MobileSubscriber::Detection
         when 'AR' # Movistar Argentina:
           # TODO: Determine (if possible) the MNC (010 or 070)
           { mcc: "722", mnc: "010" }
-        when 'EC' # Movistar Ecuador:
-          { mcc: "740", mnc: "00" }
         end
 
         # Return only if we identified the network:
