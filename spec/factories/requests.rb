@@ -143,6 +143,16 @@ FactoryGirl.define do
       end
     end
 
+    # TODO: Replace with a real example:
+    factory :mobile_request_from_claro_panama do
+      initialize_with do
+        new build(:common_mobile_request_env).merge(
+          "REMOTE_ADDR"     => "181.178.231.8",
+          "HTTP_X_UP_SUBNO" => "5070000000"
+        )
+      end
+    end
+
     # http://myip.ms/view/ip_owners/7424/Telefonica_Del_Peru_Saa.html
     factory :mobile_request_from_movistar_peru do
       initialize_with do

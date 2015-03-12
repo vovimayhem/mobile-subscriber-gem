@@ -27,6 +27,17 @@ describe MobileSubscriber::Detection::FromXUpSubnoHttpRequestHeader do
       end
     end
 
+    context "when given a request made from Claro Panamá" do
+
+      let(:test_request) { build :mobile_request_from_claro_panama }
+
+      include_examples "of detection of msisdn from a valid panamanian mobile network http request"
+
+      it "has a :mobile_network_code value of '03'" do
+        expect(subject[:mobile_network_code]).to eq '03'
+      end
+    end
+
   end
 
 end
