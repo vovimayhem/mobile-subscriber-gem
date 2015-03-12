@@ -92,6 +92,17 @@ shared_examples "of detection of msisdn from a valid chilean mobile network http
   end
 end
 
+shared_examples "of detection of msisdn from a valid salvadoran mobile network http request" do
+  include_examples "of detection of msisdn from a valid mobile network http request"
+  it "has an :id value that starts with '503'" do
+    expect(subject[:id]).to match /\A503/
+  end
+
+  it "has a :mobile_country_code value of '706'" do
+    expect(subject[:mobile_country_code]).to eq '706'
+  end
+end
+
 shared_examples "of detection of msisdn from a valid costa rican mobile network http request" do
   include_examples "of detection of msisdn from a valid mobile network http request"
   it "has an :id value that starts with '506'" do

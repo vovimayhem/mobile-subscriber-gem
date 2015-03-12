@@ -74,6 +74,16 @@ describe MobileSubscriber::Detection::FromXNokiaMsisdnHttpRequestHeader do
         expect(subject[:mobile_network_code]).to eq '21'
       end
     end
+
+    context "when given a request made from Claro El Salvador" do
+      let(:test_request) { build :mobile_request_from_claro_el_salvador }
+
+      include_examples "of detection of msisdn from a valid salvadoran mobile network http request"
+
+      it "has a :mobile_network_code value of '01'" do
+        expect(subject[:mobile_network_code]).to eq '01'
+      end
+    end
   end
 
 end
