@@ -1,4 +1,5 @@
 module MobileSubscriber
+  # See: http://countrycode.org/
   # Diccionario de Dialing Country Codes => ISO country codes:
   DIALING_COUNTRY_CODES = {
     # Caribbean Islands' country codes are a mess!
@@ -6,13 +7,15 @@ module MobileSubscriber
     '1829' => 'DO', # Dominican Republic Overlay 1
     '1849' => 'DO', # Dominican Republic Overlay 2
 
+    '225' => 'CI',  # Costa de Marfil
+
     '501'	=> 'BZ',	# Belize
     '502'	=> 'GT',	# Guatemala
     '503'	=> 'SV',	# El Salvador
     '504'	=> 'HN',	# Honduras
     '505'	=> 'NI',	# Nicaragua
     '506'	=> 'CR',	# Costa Rica
-    '507'	=> 'CI',	# Costa de Marfil
+    '507'	=> 'PA',	# Panamá
     '509'	=> 'HT',	# Haití
     '51'	=> 'PE',	# Perú
     '52'	=> 'MX',	# México
