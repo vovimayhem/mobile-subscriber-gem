@@ -61,6 +61,16 @@ FactoryGirl.define do
       end
     end
 
+    # TODO: Replace with a real example:
+    factory :mobile_request_from_claro_dominican_republic do
+      initialize_with do
+        new build(:common_mobile_request_env).merge(
+          "REMOTE_ADDR" =>  "181.37.104.3",
+          "HTTP_MSISDN" =>  "18098591800"
+        )
+      end
+    end
+
     # http://ns.myip.ms/view/ip_owners/181034/Claro_Chile_S_a.html
     factory :mobile_request_from_claro_chile do
       initialize_with do

@@ -38,6 +38,16 @@ describe MobileSubscriber::Detection::FromMsisdnHttpRequestHeader do
       end
     end
 
+    context "when given a request made from Claro República Dominicana" do
+      let(:test_request) { build :mobile_request_from_claro_dominican_republic }
+
+      include_examples "of detection of msisdn from a valid dominican mobile network http request"
+
+      it "has a :mobile_network_code value of '02'" do
+        expect(subject[:mobile_network_code]).to eq '02'
+      end
+    end
+
   end
 
 end
