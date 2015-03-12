@@ -5,8 +5,10 @@ module MobileSubscriber::Detection
   # Módulo que provee métodos de deteccion y validacion para MSISDN's de:
   # - Telcel México
   # - Claro Argentina
+  # - Claro Costa Rica
   # - Claro Guatemala
   # - Claro Honduras
+  # - Claro Nicaragua
   module FromXNokiaMsisdnHttpRequestHeader
 
     def extract_from_x_nokia_msisdn_http_request_header(http_request_info)
@@ -26,6 +28,10 @@ module MobileSubscriber::Detection
           { mcc: "704", mnc: "01"   }
         when 'HN' # Claro Honduras:
           { mcc: "708", mnc: "001"  }
+        when 'NI' # Claro Nicaragua:
+          { mcc: "710", mnc: "21"  }
+        when 'CR' # Claro Costa Rica
+          { mcc: "712", mnc: "03"  }
         when 'AR' # Claro Argentina:
           { mcc: "722", mnc: "330"  }
         end

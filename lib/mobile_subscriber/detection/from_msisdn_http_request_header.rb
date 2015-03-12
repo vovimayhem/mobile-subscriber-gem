@@ -5,11 +5,9 @@ module MobileSubscriber::Detection
   # Módulo que provee métodos de detección y validacion para MSISDN por el
   # header de HTTP 'Msisdn':
   # - Claro Brasil
-  # - Claro Costa Rica
   # - Claro República Dominicana
   # - Claro Ecuador
   # - Claro El Salvador
-  # - Claro Nicaragua
   # - Claro Paraguay
   module FromMsisdnHttpRequestHeader
 
@@ -28,16 +26,12 @@ module MobileSubscriber::Detection
         when 'BR' # Claro Brasil
           # TODO: Determine (if possible) the MNC (05, 38)
           { mcc: "724", mnc: "05"  }
-        when 'CR' # Claro Costa Rica
-          { mcc: "712", mnc: "03"  }
         when 'DO' # Claro Dominicana:
           { mcc: "370", mnc: "02"  }
         when 'EC' # Claro Ecuador:
           { mcc: "740", mnc: "01"  }
         when 'SV' # Claro El Salvador:
           { mcc: "706", mnc: "01"  }
-        when 'NI' # Claro Nicaragua:
-          { mcc: "710", mnc: "21"  }
         when 'PY' # Claro Paraguay:
           { mcc: "744", mnc: "02"  }
         end
