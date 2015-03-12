@@ -41,6 +41,7 @@ module MobileSubscriber::Detection
         'X-Wap-Msisdn',
         'X-Wap-Sesiones3g-Mdn',     # Not in referenced literature
         'X-Wsb-Cli',
+        'X-Ztgo-Beareraddress',     # Not in referenced literature
 
         # Headers that contain bearer information:
         # http://www.mulliner.org/collin/academic/publications/mobile_web_privacy_icin10_mulliner.pdf
