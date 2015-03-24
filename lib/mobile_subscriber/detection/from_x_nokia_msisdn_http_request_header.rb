@@ -6,6 +6,7 @@ module MobileSubscriber::Detection
   # - Telcel México
   # - Claro Argentina
   # - Claro Costa Rica
+  # - Claro Puerto Rico
   # - Claro Guatemala
   # - Claro Honduras
   # - Claro Nicaragua
@@ -17,26 +18,29 @@ module MobileSubscriber::Detection
 
         country_code = (
           MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,2]] ||
-          MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,3]]
+          MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,3]] || # Dominican 3-digit needed
+          MobileSubscriber::DIALING_COUNTRY_CODES[msisdn[0,1]]    # Puerto Rico 1-digit country code of "1"
         )
 
         # Determine the Network Operator tuple (MCC + MNC):
         # TODO: Validate IP ranges, additional headers, etc.
         network_id_tuple = case country_code
+        when 'PR' # Claro Puerto Rico:
+          { mcc: "330", mnc: "110" }
         when 'MX' # Telcel México:
-          { mcc: "334", mnc: "020"  }
+          { mcc: "334", mnc: "020" }
         when 'GT' # Claro Guatemala:
-          { mcc: "704", mnc: "01"   }
+          { mcc: "704", mnc: "01"  }
         when 'SV' # Claro El Salvador:
           { mcc: "706", mnc: "01"  }
         when 'HN' # Claro Honduras:
-          { mcc: "708", mnc: "001"  }
+          { mcc: "708", mnc: "001" }
         when 'NI' # Claro Nicaragua:
           { mcc: "710", mnc: "21"  }
         when 'CR' # Claro Costa Rica
           { mcc: "712", mnc: "03"  }
         when 'AR' # Claro Argentina:
-          { mcc: "722", mnc: "330"  }
+          { mcc: "722", mnc: "330" }
         end
 
         # Return only if we identified the network:

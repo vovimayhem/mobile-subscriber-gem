@@ -2,6 +2,9 @@ module MobileSubscriber
   # See: http://countrycode.org/
   # Diccionario de Dialing Country Codes => ISO country codes:
   DIALING_COUNTRY_CODES = {
+    # WTF???
+    '1' => 'PR', # Puerto Rico "1" country code...
+
     # Caribbean Islands' country codes are a mess!
     '1809' => 'DO', # Dominican Republic
     '1829' => 'DO', # Dominican Republic Overlay 1
