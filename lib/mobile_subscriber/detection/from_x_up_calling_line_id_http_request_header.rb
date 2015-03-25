@@ -24,9 +24,11 @@ module MobileSubscriber::Detection
         # TODO: Validate IP ranges, additional headers, etc.
         network_id_tuple = case country_code
         when 'PE'
-          if (via_header = http_request_info.headers['Via']).present? and via_header =~ /Comverse/i
+          # Claro Perú includes the "X-Nokia-Imsi" header...
+          imsi = http_request_info.headers['X-Nokia-Imsi']
+          if imsi.present?
             # Claro Peru: (IP's 190.113.x)
-            { mcc: "716", mnc: "10" }
+            { mcc: "716", mnc: "10" } if imsi.start_with?('71610')
           else
             # Movistar Peru: (IP's 190.238.x)
             { mcc: "716", mnc: "06" }

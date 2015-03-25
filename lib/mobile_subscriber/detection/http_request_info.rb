@@ -29,6 +29,7 @@ module MobileSubscriber::Detection
         'X-Msp-Clid',
         'X-Msp-Msisdn',
         'X-Network-Info',
+        'X-Nokia-Imsi',             # This is a VERY useful one... if you have it!
         'X-Nokia-Msisdn',
         'X-Nx-Clid',
         'X-Orange-Cli',
