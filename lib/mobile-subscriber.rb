@@ -4,9 +4,14 @@ require 'active_support/all'
 module MobileSubscriber
   extend ActiveSupport::Autoload
 
-  autoload :ISDN, "mobile_subscriber/isdn.rb"
+  autoload :Identity
 
-  module Detection
+  module HTTP
+    extend ActiveSupport::Autoload
+    autoload :RequestInfo
+  end
+
+  module MSISDNExtraction
     extend ActiveSupport::Autoload
     autoload :FromMsisdnHttpRequestHeader
     autoload :FromXNokiaMsisdnHttpRequestHeader
@@ -16,6 +21,11 @@ module MobileSubscriber
     autoload :FromXWapMsisdnHttpRequestHeader
     autoload :FromXWapSesiones3gMdnHttpRequestHeader
     autoload :FromXZtgoBeareraddressHttpRequestHeader
-    autoload :HttpRequestInfo
+  end
+
+  module IMSIExtraction
+    extend ActiveSupport::Autoload
+    autoload :FromXImsiHttpRequestHeader
+    autoload :FromXNokiaImsiHttpRequestHeader
   end
 end
