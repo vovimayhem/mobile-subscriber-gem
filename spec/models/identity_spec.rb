@@ -1,13 +1,13 @@
 require "spec_helper"
 
-describe MobileSubscriber::ISDN do
+describe MobileSubscriber::Identity do
 
   it "responds to #id" do
     expect(subject).to respond_to :id
   end
 
-  it "aliases #id as #to_s" do
-    expect(subject.to_s).to eq subject.id
+  it "aliases #id to #to_s" do
+    expect(subject.id).to eq subject.to_s
   end
 
   it "responds to #mobile_country_code" do
@@ -47,7 +47,7 @@ describe MobileSubscriber::ISDN do
     context "from a request made from a valid mobile network" do
 
       subject do
-        described_class.new_from_request(build :mobile_request_from_telcel_mexico)
+        described_class.new_from_request(build :mobile_request_from_claro_panama)
       end
 
       it "is not nil" do
@@ -63,7 +63,7 @@ describe MobileSubscriber::ISDN do
       end
 
       it "#id is present" do
-        expect(subject.id).to be_present
+        expect(subject.msisdn).to be_present
       end
 
       it "#mobile_country_code is present" do
