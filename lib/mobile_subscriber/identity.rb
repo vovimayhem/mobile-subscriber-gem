@@ -32,7 +32,18 @@ module MobileSubscriber
     alias_method :to_s, :id
 
     def dialing_code
-      MobileSubscriber::DIALING_COUNTRY_CODES[iso_3166_country_code] if mcc.present?
+      if mcc.present?
+        dialing_codes = MobileSubscriber::DIALING_COUNTRY_CODES.select do |k,v|
+          v == iso_3166_country_code
+        end.keys
+
+        if msisdn.present?
+          max_length = dialing_codes.map(&:length).max
+          msisdn[0,max_length]
+        else
+          dialing_codes.first
+        end
+      end
     end
     alias_method :country_dialing_code, :dialing_code
 
