@@ -1,0 +1,17 @@
+module MobileSubscriber
+
+  # Country Dialing => ISO codes:
+  DIALING_COUNTRY_CODES = {
+
+    # Codes collected from http://countrycode.org
+<% @country_code_data.each do |d| %>
+    '<%= d[:dialing_code] %>' => '<%= d[:iso_code_2] %>', # <%= d[:country_name] %>
+<% end %>
+
+    # Special cases:
+    # Boy! Caribbean Islands' codes do get messy!
+    '1829' => 'DO', # Dominican Republic Overlay 1
+    '1849' => 'DO', # Dominican Republic Overlay 2
+
+  }.freeze
+end

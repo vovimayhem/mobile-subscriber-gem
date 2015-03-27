@@ -96,4 +96,45 @@ class MobileSubscriber < Thor
 
   end
 
+  # Scrapes the Wikipedia entry of 'Mobile country code' to generate the dictionaries.
+  desc "update_country_dialing_codes", "Update the country dialing codes dictionary from countrycode.org"
+  def update_country_dialing_codes()
+
+    # Get the Wikipedia HTML and parse HTML with nokogiri:
+    page = Nokogiri::HTML(open "http://countrycode.org/")
+
+    funky_stripper = -> (str, pttrn) { str.chars.select { |c| c =~ pttrn }.join }
+
+    # Iterate over the main table > tbody > tr:
+    @country_code_data = page.css('table#main_table_blue > tbody > tr').inject([]) do |list, t_row|
+      t_cells = t_row.css('td')
+
+      # Capture the country name:
+      name = t_cells[0].text.strip
+
+      # Capture the iso codes:
+      # WTF strip does not work here to clear spaces!
+      alpha_2, alpha_3 = t_cells[1].text.split('/').map { |str| funky_stripper.call(str, /[A-Z]/) }
+
+      # Capture the dialing code:
+      dialing = funky_stripper.call(t_cells[2].text, /\d/)
+
+      # Add to list if alpha_2 and dialing code are both present:
+      if alpha_2.present? && dialing.present?
+        list << {
+          country_name: name,
+          iso_code_2:   alpha_2,
+          iso_code_3:   alpha_3,
+          dialing_code: dialing
+        }
+      end
+
+      # Return updated list:
+      list
+    end
+
+    template 'templates/dialing_and_country_codes.rb.erb', 'lib/mobile_subscriber/dictionaries/dialing_and_country_codes.rb'
+
+  end
+
 end
