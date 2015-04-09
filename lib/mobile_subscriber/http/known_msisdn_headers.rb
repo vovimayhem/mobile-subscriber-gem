@@ -10,8 +10,11 @@ module MobileSubscriber::HTTP
       ['740', '01'], # Claro Ecuador
     ],
 
-    'X-Nokia-Msisdn' => [
+    'X-Cisco-Msisdn' => [
       ['330', '110'], # Claro Puerto Rico
+    ],
+
+    'X-Nokia-Msisdn' => [
       ['334', '020'], # Telcel México
       ['704', '01' ], # Claro Guatemala
       ['706', '01' ], # Claro El Salvador

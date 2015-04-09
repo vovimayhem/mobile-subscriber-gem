@@ -2,9 +2,9 @@ require "spec_helper"
 
 shared_examples "of mobile subcriber identity detection from a valid puerto rican mobile network http request" do
 
-  
 
-  it "the msisdn starts with '1'" do
+
+  it "the msisdn starts with '1787'" do
     expect(subject.msisdn).to start_with '1'
   end
 

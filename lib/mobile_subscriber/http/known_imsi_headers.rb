@@ -13,6 +13,10 @@ module MobileSubscriber::HTTP
       ['722', '310'], # Claro Argentina
       ['722', '320'], # Claro Argentina
       ['722', '330'], # Claro Argentina
+    ],
+
+    'X-Cisco-Imsi' => [
+      ['330', '110'], # Claro Puerto Rico
     ]
   }
 end

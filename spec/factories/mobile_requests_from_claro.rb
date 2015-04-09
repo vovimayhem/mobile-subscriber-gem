@@ -96,12 +96,38 @@ FactoryGirl.define do
     end
   end
 
-  # TODO: Replace with a real example request:
+  # Real request taken on 2015-04-09 16:07:05
   factory :mobile_request_from_claro_puerto_rico, parent: :mobile_request do
     initialize_with do
       new build(:common_mobile_request_env).merge(
-        "REMOTE_ADDR" =>  "64.237.130.12",
-        "HTTP_X_NOKIA_MSISDN" =>  "17872889401" # 1-787-XXXXXXXX
+        "REMOTE_ADDR" =>  "63.235.37.23",
+        "HTTP_ACCEPT" =>  "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5",
+        "HTTP_ACCEPT_CHARSET" =>"utf-8, iso-8859-1, utf-16, *;q=0.7",
+        "HTTP_ACCEPT_ENCODING" =>"gzip",
+        "HTTP_ACCEPT_LANGUAGE" =>"en-US",
+        "HTTP_AKAMAI_ORIGIN_HOP" =>"1",
+        "HTTP_CACHE_CONTROL"  =>"no-cache, max-age=0",
+        "HTTP_CONNECT_TIME"   =>"0",
+        "HTTP_CONNECTION"     =>"close",
+        "HTTP_HOST"           =>"api.claroapps.com",
+        "HTTP_PRAGMA"         =>"no-cache",
+        "HTTP_TOTAL_ROUTE_TIME" =>"0",
+        "HTTP_USER_AGENT"   => "Mozilla/5.0 (Linux; U; Android 2.3.6; en-us; GT-I9070 Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
+        "HTTP_VERSION"      =>"HTTP/1.1",
+        "HTTP_VIA"          =>"1.1 akamai.net(ghost) (AkamaiGHost), 1.1 vegur",
+
+        "HTTP_X_AKAMAI_CONFIG_LOG_DETAIL" =>"true",
+
+        "HTTP_X_CISCO_IMSI"   =>"330110010202360",
+        "HTTP_X_CISCO_MSISDN" =>"17873131471",
+
+        "HTTP_X_FORWARDED_FOR"   =>"63.135.255.59, 63.235.37.23",
+        "HTTP_X_FORWARDED_PORT"  =>"80",
+        "HTTP_X_FORWARDED_PROTO" =>"http",
+
+        "HTTP_X_REQUEST_ID"    =>"4b67a488-619e-4366-9437-f5e5e746f971",
+        "HTTP_X_REQUEST_START" =>"1428595625229",
+        "HTTP_X_WAP_PROFILE"   =>"http://wap.samsungmobile.com/uaprof/GT-I9070.xml"
       )
     end
   end

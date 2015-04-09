@@ -29,6 +29,8 @@ module MobileSubscriber::HTTP
         'Igcli',
         'Msisdn',
         'Rapmin',
+        'X-Cisco-Msisdn',
+        'X-Cisco-Imsi',
         'X-Fh-Msisdn',
         "X-H3-G-Msisdn",
         'X-Hts-Clid',

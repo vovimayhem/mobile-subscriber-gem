@@ -464,6 +464,9 @@ module MobileSubscriber
     '263' => 'ZW', # Zimbabwe
 
 
+    # TODO: Block 1 countries:
+    '1787' => 'PR',
+
     # Special cases:
     # Boy! Caribbean Islands' codes do get messy!
     '1829' => 'DO', # Dominican Republic Overlay 1
